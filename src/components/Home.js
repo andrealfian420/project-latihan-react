@@ -1,17 +1,11 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React from "react";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
 
-const Home = () => {
-  const [posts, setPosts] = useState([]);
+const Home = (props) => {
+  console.log(props);
 
-  useEffect(() => {
-    axios
-      .get("https://jsonplaceholder.typicode.com/posts")
-      .then((res) => setPosts([...res.data.slice(0, 15)]))
-      .catch((err) => console.log(err));
-  }, []);
-
+  const { posts } = props;
   const postList = posts.length ? (
     posts.map((post) => {
       return (
@@ -50,4 +44,10 @@ const Home = () => {
   );
 };
 
-export default Home;
+const mapStateToProps = (state) => {
+  return {
+    posts: state.posts,
+  };
+};
+
+export default connect(mapStateToProps)(Home);
