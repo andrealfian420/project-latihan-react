@@ -3,8 +3,6 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 
 const Home = (props) => {
-  console.log(props);
-
   const { posts } = props;
   const postList = posts.length ? (
     posts.map((post) => {

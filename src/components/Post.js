@@ -1,28 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
+import { connect } from "react-redux";
 
 const Post = (props) => {
-  const [post, setPost] = useState([]);
-
-  useEffect(() => {
-    const post_id = props.match.params.post_id;
-
-    axios
-      .get(`https://jsonplaceholder.typicode.com/posts/${post_id}`)
-      .then((res) => setPost([res.data]))
-      .catch((err) => console.log(err));
-  }, [props.match.params.post_id]);
-
-  const postData = post.length ? (
-    post.map((post) => {
-      return (
-        <div className="center" key={post.id}>
-          <h4 className="center">{post.title}</h4>
-          <p>{post.body}</p>
-        </div>
-      );
-    })
+  const postData = props.post ? (
+    <div className="center" key={props.post.id}>
+      <h4 className="center">{props.post.title}</h4>
+      <p>{props.post.body}</p>
+    </div>
   ) : (
     <div className="center">
       <h4>No post found !</h4>
@@ -45,4 +30,12 @@ const Post = (props) => {
   );
 };
 
-export default Post;
+const mapStateToProps = (state, ownProps) => {
+  const id = parseInt(ownProps.match.params.post_id);
+
+  return {
+    post: state.posts.find((post) => post.id === id),
+  };
+};
+
+export default connect(mapStateToProps)(Post);
