@@ -19,11 +19,27 @@ const initState = {
       body:
         "et iusto sed quo iure voluptatem occaecati omnis eligendi aut ad voluptatem doloribus vel accusantium quis pariatur molestiae porro eius odio et labore et velit aut",
     },
+    {
+      id: 4,
+      title: "Lorem ipsum dolor sit amet.",
+      body:
+        "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Illo, adipisci dolores. Doloremque culpa suscipit maxime.",
+    },
   ],
 };
 
 const rootReducer = (state = initState, action) => {
-  return state;
+  switch (action.type) {
+    case "DELETE_POST":
+      let newState = state.posts.filter((post) => post.id !== action.id);
+      return {
+        ...initState,
+        posts: newState,
+      };
+
+    default:
+      return state;
+  }
 };
 
 export default rootReducer;
